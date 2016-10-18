@@ -4,12 +4,14 @@ import ReactDOM from 'react-dom';
 class Feed extends React.Component {
 		render() {
 			return (
-				<p>ugh,world</p>
+				<div>
+					<div class="fb-status-update-entry panel panel-default"></div>
+				</div>
 			);
 		}
 }
 
 ReactDOM.render(
-	<UghWorld />
+	<Feed />,
 	document.getElementById('fb-feed')
 )
