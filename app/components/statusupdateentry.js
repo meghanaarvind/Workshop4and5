@@ -20,7 +20,7 @@ handlePost(e) {
     var statusUpdateText = this.state.value.trim();
     if (statusUpdateText !== "") {
       this.props.onPost(statusUpdateText);
-      this.setState({value: ""});
+  //    this.setState({value: ""});
     }
 }
 
@@ -51,11 +51,13 @@ handleChange(e) {
                 </span> <strong>Update Status</strong></a>
             </li>
             <li role="presentation">
-              <a href="#"><span className="glyphicon glyphicon-picture">
+              <a href="#">
+                <span className="glyphicon glyphicon-picture">
                 </span> <strong>Add Photos/Video</strong></a>
             </li>
             <li role="presentation">
-              <a href="#"><span className="glyphicon glyphicon-th">
+              <a href="#">
+                <span className="glyphicon glyphicon-th">
                 </span> <strong>Create Photo Album</strong></a>
             </li>
           </ul>
@@ -65,24 +67,28 @@ handleChange(e) {
             </div>
           <div className="media-body">
             <div className="form-group">
-              <textarea className="form-control" rows="2"
+              <textarea className="form-control"
+                    rows="2"
                     placeholder="What's on your mind?"
                     value={this.state.value}
-                    onChange={(e) => this.handleChange(e)}
-              />
+                    onChange={(e) => this.handleChange(e)}  />
+                  onPost={(e) => this.handleChange(e)}
             </div>
           </div>
         </div>
         <div className="row">
           <div className="col-md-6">
               <div className="btn-group" role="group">
-                <button type="button" className="btn btn-default">
+                <button type="button"
+                    className="btn btn-default">
                   <span className="glyphicon glyphicon-camera"></span>
                 </button>
-                <button type="button" className="btn btn-default">
+                <button type="button"
+                    className="btn btn-default">
                   <span className="glyphicon glyphicon-user"></span>
                 </button>
                 <button type="button" className="btn btn-default">
+                  <span className="glyphicon glyphicon-heart"></span>
                 </button>
                 <button type="button" className="btn btn-default">
                   <span className="glyphicon glyphicon-pushpin"></span>

@@ -41,6 +41,7 @@ export default class CommentEntry extends React.Component {
                 <span className="glyphicon glyphicon-camera"></span>
               </button>
               <button className="btn btn-default" type="button">
+                <span className = "glyphicon glyphicon-heart"></span>
               </button>
             </span>
           </div>

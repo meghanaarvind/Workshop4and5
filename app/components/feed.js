@@ -33,7 +33,7 @@ export default class Feed extends React.Component {
       // but let's fix it to Amherst for now.
       postStatusUpdate(4, "Amherst, MA", postContents, () => {
           // Database is now updated. Refresh the feed.
-          this.refresh();
+            this.refresh();
       });
     }
 
@@ -49,9 +49,9 @@ export default class Feed extends React.Component {
             {this.state.contents.map((feedItem) => {
                 return (
                   <FeedItem key={feedItem._id} data={feedItem} />
-                );
+                )
             })}
         </div>
       )
     }
-  }
+}

@@ -2,6 +2,9 @@ import React from 'react';
 import StatusUpdate from './statusupdate';
 import CommentThread from './commentthread';
 import Comment from './comment';
+import postComment from './app/server'
+import unlikeFeedItem from './app/server'
+import likeFeedItem from './app/server'
 export default class FeedItem extends React.Component {
 
   constructor(props) {
@@ -79,22 +82,26 @@ render() {
     likeButtonText = "Unlike";
   }
 
+  <a href="#" onClick = {(e) => this.handleLikeClick(e)}>
+    <span className="glyphicon glyphicon-thumbs-up"></span>
+    {likeButtonText}
+  </a>
+
   switch(data.type) {
       case "statusUpdate":
       // Create a StatusUpdate. Dynamically created
-      // React component: needs a key.
       // Keys only need to be unique among *siblings*,
       // so we can re-use the same key as the FeedItem.
       contents = (
         <StatusUpdate key={data._id}
-        author={data.contents.author}
-        postDate={data.contents.postDate}
-        location={data.contents.location}>
-        {data.contents.contents.split("\n").map((line) => {
-return (
-<p>{line}</p>
-);
-})}
+          author={data.contents.author}
+          postDate={data.contents.postDate}
+          location={data.contents.location}>
+          {data.contents.contents.split("\n").map((line,i) => {
+            return (
+              <p key={"line"+i}>{line}</p>
+              );
+            })}
         </StatusUpdate>
       );
       break;
@@ -108,28 +115,28 @@ return (
         <StatusUpdate author="Someone" postDate="Yesterday at 3:48pm" location="Austin, TX">
           ugh.
         </StatusUpdate>
-    <hr />
-    <div className="row">
-      <div className="col-md-12">
-        <ul className="list-inline">
-          <li>
-          <a href="#">
-              <span className="glyphicon glyphicon-thumbs-up">
-              </span> {likeButtonText}</a>
-          </li>
-          <li>
-          <a href="#">
-            <span className="glyphicon glyphicon-comment">
-            </span> Comment</a>
-          </li>
-          <li>
-          <a href="#">
-            <span className="glyphicon glyphicon-share-alt">
-            </span> Share</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+        <hr />
+    <   div className="row">
+          <div className="col-md-12">
+            <ul className="list-inline">
+              <li>
+              <a href="#">
+                <span className="glyphicon glyphicon-thumbs-up">
+                </span> {likeButtonText}</a>
+              </li>
+              <li>
+                <a href="#">
+                <span className="glyphicon glyphicon-comment">
+                </span> Comment</a>
+              </li>
+              <li>
+              <a href="#">
+                <span className="glyphicon glyphicon-share-alt">
+                </span> Share</a>
+              </li>
+            </ul>
+          </div>
+        </div>
     </div>
     <div className="panel-footer">
         <div className="row">
@@ -138,7 +145,8 @@ return (
           </div>
         </div>
         <hr />
-        <CommentThread>
+        <CommentThread onPost={(commentText) => this.handleCommentPost(commentText)}>
+          {
           data.comments.map((comment, i) => {
             // i is comment's index in comments array
             return (
@@ -149,6 +157,7 @@ return (
               </Comment>
               );
             })
+          }
         </CommentThread>
       </div>
     </div>
