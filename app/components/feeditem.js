@@ -2,9 +2,7 @@ import React from 'react';
 import StatusUpdate from './statusupdate';
 import CommentThread from './commentthread';
 import Comment from './comment';
-import postComment from './app/server'
-import unlikeFeedItem from './app/server'
-import likeFeedItem from './app/server'
+import {postComment, unlikeFeedItem, likeFeedItem} from '../server'
 export default class FeedItem extends React.Component {
 
   constructor(props) {
@@ -81,12 +79,6 @@ render() {
   if (this.didUserLike()) {
     likeButtonText = "Unlike";
   }
-
-  <a href="#" onClick = {(e) => this.handleLikeClick(e)}>
-    <span className="glyphicon glyphicon-thumbs-up"></span>
-    {likeButtonText}
-  </a>
-
   switch(data.type) {
       case "statusUpdate":
       // Create a StatusUpdate. Dynamically created
@@ -120,9 +112,10 @@ render() {
           <div className="col-md-12">
             <ul className="list-inline">
               <li>
-              <a href="#">
-                <span className="glyphicon glyphicon-thumbs-up">
-                </span> {likeButtonText}</a>
+                <a href="#" onClick={(e) => this.handleLikeClick(e)}>
+<span className="glyphicon glyphicon-thumbs-up"></span>
+{likeButtonText}
+</a>
               </li>
               <li>
                 <a href="#">
@@ -152,7 +145,10 @@ render() {
             return (
               <Comment key={i}
                       author={comment.author}
-                      postDate={comment.postDate}>
+                      commentKey={i}
+                      likeCounter={comment.likeCounter}
+                      postDate={comment.postDate}
+                      dataId={data._id}>
                     {comment.contents}
               </Comment>
               );

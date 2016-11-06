@@ -28,6 +28,9 @@ function getFeedItemSync(feedItemId) {
   feedItem.comments.forEach((comment) => {
     comment.author = readDocument('users', comment.author);
   });
+  feedItem.comments.forEach((comment) => {
+    comment.likeCounter.map((id) => readDocument('users',id))
+  });
   return feedItem;
 }
 /**
@@ -103,7 +106,8 @@ export function postComment(feedItemId, author, contents, cb) {
   feedItem.comments.push({
     "author": author,
     "contents": contents,
-    "postDate": new Date().getTime()
+    "postDate": new Date().getTime(),
+    "likeCounter": []
   });
   writeDocument('feedItems', feedItem);
   // Return a resolved version of the feed item so React can
@@ -153,5 +157,49 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
   }
   // Return a resolved version of the likeCounter
   emulateServerReturn(feedItem.likeCounter.map((userId) =>
+    readDocument('users', userId)), cb);
+}
+
+/**
+* Updates a feed item's likeCounter by adding the
+* user to the likeCounter. Provides an updated likeCounter
+* in the response.
+*/
+export function likeComment(feedItemId, userId, commentIndex,cb) {
+  var feedItem = readDocument('feedItems', feedItemId);
+  // Normally, we would check if the user already
+  // liked this comment. But we will not do that
+  // in this mock server. ('push' modifies the array
+  // by adding userId to the end)
+  feedItem.comments[commentIndex].likeCounter.push(userId)
+  writeDocument('feedItems', feedItem);
+  // Return a resolved version of the likeCounter
+  emulateServerReturn(feedItem.comments[commentIndex].likeCounter.map((userId) =>
+  readDocument('users', userId)), cb);
+}
+
+/**
+* Updates a feed item's likeCounter by removing
+* the user from the likeCounter.
+* Provides an updated likeCounter in the response.
+*/
+export function unlikeComment(feedItemId, userId, commentIndex, cb) {
+  var feedItem = readDocument('feedItems', feedItemId);
+  // Find the array index that contains the user's ID.
+  // (We didn't *resolve* the FeedItem object, so
+  // it is just an array of user IDs)
+  var userIndex = feedItem.comments[commentIndex].likeCounter.indexOf(userId);
+  // -1 means the user is *not* in the likeCounter,
+  // so we can simply avoid updating
+  // anything if that is the case: the user already
+  // doesn't like the item.
+  if (userIndex !== -1) {
+    // 'splice' removes items from an array. This
+    // removes 1 element starting from userIndex.
+    feedItem.comments[commentIndex].likeCounter.splice(userIndex, 1);
+    writeDocument('feedItems', feedItem);
+  }
+  // Return a resolved version of the likeCounter
+  emulateServerReturn(feedItem.comments[commentIndex].likeCounter.map((userId) =>
     readDocument('users', userId)), cb);
 }

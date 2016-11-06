@@ -72,7 +72,6 @@ handleChange(e) {
                     placeholder="What's on your mind?"
                     value={this.state.value}
                     onChange={(e) => this.handleChange(e)}  />
-                  onPost={(e) => this.handleChange(e)}
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import {getFeedData} from '../server'
 import React from 'react';
 import FeedItem from './feeditem';
 import StatusUpdateEntry from './statusupdateentry';
-import postStatusUpdate from './app/server'
+import postStatusUpdate from '../server'
 export default class Feed extends React.Component {
   constructor(props) {
       // super() calls the parent class constructor --

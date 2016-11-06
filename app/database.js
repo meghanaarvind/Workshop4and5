@@ -58,11 +58,17 @@ var initialData = {
             "contents": "hope everything is ok!",
             // The date the comment was posted.
             // 01/24/16 22:00 EST
+            "likeCounter" : [
+              2,3
+            ],
             "postDate": 1453690800000
           },
           {
             "author": 3,
             "contents": "sending hugs your way",
+            "likeCounter" : [
+              1,2
+            ],
             "postDate": 1453690800000
           }
         ]
